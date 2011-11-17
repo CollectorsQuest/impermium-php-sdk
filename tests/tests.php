@@ -65,6 +65,7 @@ class ImpermiumTestCase extends PHPUnit_Framework_TestCase
       $response = $impermium->api('user/account', $params, true);
 
       $this->assertEquals(substr($response['timestamp'], 0, 8), date('Ymd'), 'Check for the timestamp of the $response');
+      $this->assertArrayHasKey('response_id', $response, 'Checking of $response has response_id');
       $this->assertArrayHasKey('spam_classifier', $response, 'Checking of $response has spam_classifier');
       $this->assertArrayHasKey('profanity_classifier', $response, 'Checking of $response has profanity_classifier');
       $this->assertArrayHasKey('quality_classifier', $response, 'Checking of $response has quality_classifier');
