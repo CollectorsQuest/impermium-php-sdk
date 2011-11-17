@@ -33,7 +33,7 @@ class ImpermiumTestCase extends PHPUnit_Framework_TestCase
     $this->assertEquals($impermium->getApiKey(), 'dummy', 'Expect the API key to be dummy.');
   }
 
-  public function testApi()
+  public function testApiUserAccount()
   {
     $impermium = new Impermium();
     $impermium->setApiKey($this->_api_key !== null ? $this->_api_key : $_SERVER['API_KEY']);
@@ -62,9 +62,12 @@ class ImpermiumTestCase extends PHPUnit_Framework_TestCase
           "HTTP_USER_AGENT" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/534.51.22 (KHTML, like Gecko) Version/5.1.1 Safari/534.51.22"
         )
       );
-      $results = $impermium->api('user/account', $params, true);
+      $response = $impermium->api('user/account', $params, true);
 
-      $this->assertEquals($results['status'], 200, 'Checking for the status of the response');
+      $this->assertEquals(substr($response['timestamp'], 0, 8), date('Ymd'), 'Check for the timestamp of the $response');
+      $this->assertArrayHasKey('spam_classifier', $response, 'Checking of $response has spam_classifier');
+      $this->assertArrayHasKey('profanity_classifier', $response, 'Checking of $response has profanity_classifier');
+      $this->assertArrayHasKey('quality_classifier', $response, 'Checking of $response has quality_classifier');
     }
     catch (ImpermiumApiException $e)
     {
