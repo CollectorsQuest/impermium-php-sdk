@@ -126,7 +126,7 @@ class Impermium
     }
 
     $opts = self::$CURL_OPTS;
-    $opts[CURLOPT_POSTFIELDS] = json_encode($params);
+    $opts[CURLOPT_POSTFIELDS] = json_encode($params, JSON_UNESCAPED_SLASHES);
     $opts[CURLOPT_URL] = $url;
 
     // disable the 'Expect: 100-continue' behaviour. This causes CURL to wait
