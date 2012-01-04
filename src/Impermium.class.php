@@ -25,10 +25,10 @@ if (!function_exists('json_decode')) {
 
 class Impermium
 {
-  const VERSION = '1.0';
+  const VERSION = '1.1';
 
   /** @var string */
-  private $_api_version = '3.0';
+  private $_api_version = '3.1';
 
   /** @var array */
   private $_entrypoint = array(
@@ -46,7 +46,7 @@ class Impermium
    */
   public static $CURL_OPTS = array(
     CURLOPT_HTTPHEADER     => array('Content-Type: application/json'),
-    CURLOPT_USERAGENT      => 'php-api-client-v1.0',
+    CURLOPT_USERAGENT      => 'php-api-client-v1.1',
     CURLOPT_POST           => 1,
     CURLOPT_CONNECTTIMEOUT => 10,
     CURLOPT_RETURNTRANSFER => true,
@@ -57,7 +57,7 @@ class Impermium
    * @param  string  $api_key
    * @param  string  $api_version
    */
-  public function __construct($api_key = null, $api_version = '3.0')
+  public function __construct($api_key = null, $api_version = '3.1')
   {
     $this->_api_key = $api_key;
     $this->_api_version = $api_version;
@@ -126,7 +126,7 @@ class Impermium
     }
 
     $opts = self::$CURL_OPTS;
-    $opts[CURLOPT_POSTFIELDS] = json_encode($params, JSON_UNESCAPED_SLASHES);
+    $opts[CURLOPT_POSTFIELDS] = str_replace('\\/', '/', json_encode($params));
     $opts[CURLOPT_URL] = $url;
 
     // disable the 'Expect: 100-continue' behaviour. This causes CURL to wait
